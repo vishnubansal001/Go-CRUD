@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-
+	"hey/models"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -30,4 +30,13 @@ func init() {
 	collection = client.Database(dbName).Collection(colName)
 
 	fmt.Println("Collection instance created!")
+}
+
+func insertOneMovie(movie models.Netflix) {
+	inserted, err := collection.InsertOne(context.Background(), movie)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Inserted 1 movie in db with id: ", inserted.InsertedID)
 }
