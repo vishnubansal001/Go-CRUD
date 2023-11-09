@@ -9,11 +9,11 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"hey/models"
 	"log"
-	"os"
 	"net/http"
 	"encoding/json"
 	"github.com/gorilla/mux"
 )
+const mongoUrl = "mongodb+srv://bansalvishnu:bansalvishnu@cluster0.1tz77qn.mongodb.net/?retryWrites=true&w=majority"
 
 const dbName = "netflix"
 const colName = "watchlist"
@@ -21,7 +21,6 @@ const colName = "watchlist"
 var collection *mongo.Collection
 
 func init() {
-	mongoUrl := os.Getenv("MONGO_URL")
 
 	clientOptions := options.Client().ApplyURI(mongoUrl)
 
