@@ -3,11 +3,13 @@ package controllers
 import (
 	"context"
 	"fmt"
-	"log"
-	"os"
-	"hey/models"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"hey/models"
+	"log"
+	"os"
 )
 
 const dbName = "netflix"
@@ -39,4 +41,17 @@ func insertOneMovie(movie models.Netflix) {
 		log.Fatal(err)
 	}
 	fmt.Println("Inserted 1 movie in db with id: ", inserted.InsertedID)
+}
+
+func updateOneMovie(movieId string) {
+	id, _ := primitive.ObjectIDFromHex(movieId)
+	filter := bson.M{"_id": id}
+	update := bson.M{"$set": bson.M{"watched": true}}
+
+	result, err := collection.UpdateOne(context.Background(), filter, update)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("modified count: ", result.ModifiedCount)
 }
